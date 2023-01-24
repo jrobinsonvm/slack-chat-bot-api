@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: slack-ai-bot
-        image: 591380524330.dkr.ecr.us-east-1.amazonaws.com/slack-chat-api:latest
+        image: your-image-repo-here/slack-chat-api:latest
         ports:
         - containerPort: 8000
         env:
