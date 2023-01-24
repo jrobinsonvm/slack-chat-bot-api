@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slack-ai-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slack-ai-bot
+  template:
+    metadata:
+      labels:
+        app: slack-ai-bot
+    spec:
+      containers:
+      - name: slack-ai-bot
+        image: 591380524330.dkr.ecr.us-east-1.amazonaws.com/slack-chat-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: SLACK_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: slack-secrets
+              key: SLACK_BOT_TOKEN
+        - name: SLACK_CHANNEL
+          valueFrom:
+            secretKeyRef:
+              name: slack-secrets
+              key: SLACK_CHANNEL
+        - name: SLACK_APP_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: slack-secrets
+              key: SLACK_APP_TOKEN
+        - name: CHATGPT_BACKEND_URL
+          valueFrom:
+            secretKeyRef:
+              name: slack-secrets
+              key: CHATGPT_BACKEND_URL
+        command: ["python3", "chat.py"]
